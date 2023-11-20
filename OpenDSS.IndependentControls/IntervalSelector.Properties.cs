@@ -1,12 +1,7 @@
 ﻿using OpenDSS.Common;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using static OpenDSS.Wrapper.Model.Channel;
 
 namespace OpenDSS.IndependentControls
 {
@@ -113,11 +108,26 @@ namespace OpenDSS.IndependentControls
             set { SetValue(AvailableIntervalsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AvailableIntervalsProperty =
             DependencyProperty.Register("AvailableIntervals",
                 typeof(List<TimeInterval>),
                 typeof(IntervalSelector),
                 new PropertyMetadata(new List<TimeInterval>()));
+
+        public int OffsetHours
+        {
+            get { return (int)GetValue(OffsetHoursProperty); }
+            set { SetValue(OffsetHoursProperty, value); }
+        }
+
+        public static readonly DependencyProperty OffsetHoursProperty =
+            DependencyProperty.Register("OffsetHours", typeof(int), typeof(IntervalSelector), new PropertyMetadata(6, null, (s, v) =>
+            {
+                int val = (int)v;
+
+                return val >= 0 && val <= 24;
+            }));
+
+
     }
 }

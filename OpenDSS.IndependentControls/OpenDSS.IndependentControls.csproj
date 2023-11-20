@@ -118,10 +118,6 @@
       <Project>{7db57c25-909a-4a59-a4f3-1ee1bb7df14a}</Project>
       <Name>OpenDSS.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenDSS.Wrapper\OpenDSS.Wrapper.csproj">
-      <Project>{7DAB9464-A88F-41FF-9D39-00AD6BBB0F31}</Project>
-      <Name>OpenDSS.Wrapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

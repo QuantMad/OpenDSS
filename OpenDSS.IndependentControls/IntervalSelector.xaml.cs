@@ -10,6 +10,7 @@ namespace OpenDSS.IndependentControls
 {
     public partial class IntervalSelector : UserControl
     {
+        #region drawingInstruments
         private Brush backgroundBrush = Brushes.Azure.Clone();
         private Brush intervalBrush = Brushes.Blue.Clone();
         private Brush previewBrush = Brushes.Gray.Clone();
@@ -17,6 +18,7 @@ namespace OpenDSS.IndependentControls
         private DrawingGroup dynamicStore = new DrawingGroup();
         private DrawingGroup staticStore = new DrawingGroup();
         private readonly Typeface tf = new Typeface("Lucida Console");
+        #endregion drawingInstruments
 
         private readonly (double scale, (int grads, int subgrads) correspondence)[] graduations =  {
             (0.0051d, (1440, 1)),
@@ -50,6 +52,7 @@ namespace OpenDSS.IndependentControls
             }
         }
 
+        #region lovalVarsAndProps
         private int graduationsCount = 24;
         private int subGraduationsCount = 5;
 
@@ -65,6 +68,7 @@ namespace OpenDSS.IndependentControls
         private FormattedText[] timestamps;
         int timestampsRatio;
         bool RenderRequired = true;
+        #endregion lovalVarsAndProps
 
         public IntervalSelector()
         {
@@ -172,6 +176,12 @@ namespace OpenDSS.IndependentControls
                 double x = i * scaledGraduationStep + (IsShiftNeeded ? scaledGraduationStep : 0) - offset;
                 dc.DrawLine(mainPen, new Point(x, by), new Point(x, by + bh));
 
+                int hourOffset = OffsetHours * 60;
+                int timestampIndex = hourOffset + (passedGraduations + i) * timestampsRatio;
+                timestampIndex = timestampIndex >= timestamps.Length ? 0 : timestampIndex ;
+                
+                dc.DrawText(timestamps[timestampIndex], new Point(x - timestampHalfWidth, ah / 2 - timestampHalfHeight));
+
                 #region subgraduations
                 for (int j = 0; i == 0 && j < subGraduationsCount; j++)
                 {
@@ -216,8 +226,6 @@ namespace OpenDSS.IndependentControls
                     dc.DrawRectangle(intervalBrush, mainPen, r);
                 }
                 #endregion availableIntervals
-
-                dc.DrawText(timestamps[(passedGraduations + i) * timestampsRatio], new Point(x - timestampHalfWidth, ah / 2 - timestampHalfHeight));
             }
 
             #region preview
