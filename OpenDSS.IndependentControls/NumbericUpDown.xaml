@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="OpenDSS.IndependentControls.NumbericUpDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OpenDSS.IndependentControls"
+             mc:Ignorable="d"
+             BorderThickness="1" MinHeight="25" Height="10" d:Width="70" >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Border BorderBrush="#FFACACAC" >
+        <Border.BorderThickness>
+            <Binding Path="BorderThickness"
+                     RelativeSource="{RelativeSource FindAncestor, AncestorType=local:NumbericUpDown}"/>
+        </Border.BorderThickness>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="textBox" Grid.Column="0"
+                     BorderThickness="0"
+                     PreviewTextInput="NumbersInputFilter"
+                     DataObject.Pasting="NumbersPastingFilter"
+                     PreviewKeyDown="TextBox_PreviewKeyDown"
+                     MouseWheel="TextBox_MouseWheel"
+                     TextAlignment="Center"
+                     FontSize="15">
+                <TextBox.Background>
+                    <Binding Path="Background" 
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:NumbericUpDown}"/>
+                </TextBox.Background>
+                <TextBox.Text>
+                    <Binding Path="Value"
+                             Mode="TwoWay"
+                             RelativeSource="{RelativeSource AncestorType=local:NumbericUpDown}"
+                             StringFormat="{}{0:D}"
+                             UpdateSourceTrigger="PropertyChanged"/>
+                </TextBox.Text>
+            </TextBox>
+            <Grid Grid.Column="1">
+                <Grid.Visibility>
+                    <Binding Path="IncrementorsVisibility"
+                             Converter="{StaticResource BooleanToVisibilityConverter}"
+                             RelativeSource="{RelativeSource AncestorType=local:NumbericUpDown}"/>
+                </Grid.Visibility>
+                <Grid.IsEnabled>
+                    <Binding Path="IncrementorsVisibility"
+                             RelativeSource="{RelativeSource AncestorType=local:NumbericUpDown}"/>
+                </Grid.IsEnabled>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" 
+                        Content="+" 
+                        Padding="3,-4,3,-1.5" 
+                        BorderThickness="0"
+                        Click="IncButton_Click"/>
+                <Button Grid.Row="1" 
+                        Content="-" 
+                        Padding="3,-4,3,-1.5" 
+                        BorderThickness="0"
+                        Click="DecButton_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

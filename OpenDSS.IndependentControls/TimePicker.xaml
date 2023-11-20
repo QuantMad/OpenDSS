@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="OpenDSS.IndependentControls.TimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OpenDSS.IndependentControls"
+             mc:Ignorable="d" Height="28" d:Width="150" MaxHeight="28" MinHeight="28" 
+             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+    <UserControl.Resources>
+        <Style TargetType="local:NumbericUpDown">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <Binding Path="Background"
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:TimePicker}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <Binding Path="Background"
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:TimePicker}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Border BorderThickness="1" BorderBrush="DimGray">
+        <Grid Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TimePicker}}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <local:NumbericUpDown x:Name="nudHours"
+                                  Grid.Column="0" BorderThickness="0"
+                                  MaxValue="23" MinValue="0" 
+                                  IncrementorsVisibility="False"
+                                  Loop="None">
+                <local:NumbericUpDown.Background>
+                    <Binding Path="Background"
+                             RelativeSource="{RelativeSource AncestorType=local:TimePicker}"/>
+                </local:NumbericUpDown.Background>
+                <local:NumbericUpDown.Value>
+                    <Binding Path="Hour" Mode="TwoWay"
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:TimePicker}"/>
+                </local:NumbericUpDown.Value>
+            </local:NumbericUpDown>
+
+            <TextBlock Grid.Column="1" Text=":" FontSize="15"/>
+            
+            <local:NumbericUpDown x:Name="nudMinutes"
+                                  Grid.Column="2" BorderThickness="0"
+                                  MaxValue="59" MinValue="0" 
+                                  IncrementorsVisibility="False">
+                <local:NumbericUpDown.Value>
+                    <Binding Path="Minute" Mode="TwoWay"
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:TimePicker}"/>
+                </local:NumbericUpDown.Value>
+            </local:NumbericUpDown>
+
+            <TextBlock Grid.Column="3" Text=":" FontSize="15"/>
+            
+            <local:NumbericUpDown x:Name="nudSeconds" 
+                                  Grid.Column="4" BorderThickness="0"
+                                  MaxValue="59" MinValue="0" 
+                                  IncrementorsVisibility="False">
+                <local:NumbericUpDown.Value>
+                    <Binding Path="Second" Mode="TwoWay"
+                             RelativeSource="{RelativeSource FindAncestor, AncestorType=local:TimePicker}"/>
+                </local:NumbericUpDown.Value>
+            </local:NumbericUpDown>
+            
+        </Grid>
+    </Border>
+</UserControl>

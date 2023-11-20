@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="OpenDSS.IndependentControls.DateTimePicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OpenDSS.IndependentControls"
+             mc:Ignorable="d" Height="213" Width="180" Background="AliceBlue" MinWidth="180" MaxWidth="180" MinHeight="213" MaxHeight="213">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock>
+            <TextBlock.Text>
+                <Binding Path="Header"
+                         Mode="TwoWay"
+                         RelativeSource="{RelativeSource AncestorType=local:DateTimePicker}"/>
+            </TextBlock.Text>
+            <TextBlock.Visibility>
+                <Binding Path="HeaderVisibility"
+                         Mode="TwoWay"
+                         Converter="{StaticResource BooleanToVisibilityConverter}"
+                         RelativeSource="{RelativeSource AncestorType=local:DateTimePicker}"/>
+            </TextBlock.Visibility>
+            <TextBlock.IsEnabled>
+                <Binding Path="HeaderVisibility"
+                         RelativeSource="{RelativeSource AncestorType=local:DateTimePicker}"/>
+            </TextBlock.IsEnabled>
+        </TextBlock>
+
+        <Calendar x:Name="calendar" Grid.Row="1"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <local:TimePicker x:Name="timePicker" Grid.Column="0"
+                              HorizontalAlignment="Stretch"/>
+            <Button Grid.Column="1"
+                    Padding="5,0,5,0"
+                    Content="Ok"
+                    Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</UserControl>
