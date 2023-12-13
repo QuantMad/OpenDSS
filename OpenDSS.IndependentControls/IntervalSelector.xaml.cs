@@ -37,19 +37,23 @@ namespace OpenDSS.IndependentControls
                 graduationsCount = graduations[graduations.Length - 1].correspondence.grads;
                 subGraduationsCount = graduations[graduations.Length - 1].correspondence.subgrads;
                 timestampsRatio = 1440 / graduationsCount;
+                Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
                 return;
             }
 
-            for (int i = 0; i < graduations.Length - 2; i++)
+            for (int i = 0; i < graduations.Length - 1; i++)
             {
                 if (Scale < graduations[i].scale)
                 {
                     graduationsCount = graduations[i].correspondence.grads;
                     subGraduationsCount = graduations[i].correspondence.subgrads;
                     timestampsRatio = 1440 / graduationsCount;
+                    Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
                     return;
                 }
             }
+
+            
         }
 
         #region lovalVarsAndProps
@@ -172,12 +176,10 @@ namespace OpenDSS.IndependentControls
 
             for (int i = 0; i <= visibleGraduations; i++)
             {
-                bool IsShiftNeeded = (offset > 0 || (OnScreenPosition >= (ActualWidth - ActualWidth * Scale) && OnScreenPosition != 0));
-                double x = i * scaledGraduationStep + (IsShiftNeeded ? scaledGraduationStep : 0) - offset;
+                double x = i * scaledGraduationStep + (passedGraduations > 0 ? scaledGraduationStep : 0) - offset;
                 dc.DrawLine(mainPen, new Point(x, by), new Point(x, by + bh));
 
-                int hourOffset = OffsetHours * 60;
-                int timestampIndex = hourOffset + (passedGraduations + i) * timestampsRatio;
+                int timestampIndex = (passedGraduations + i) * timestampsRatio;
                 timestampIndex = timestampIndex >= timestamps.Length ? 0 : timestampIndex ;
                 
                 dc.DrawText(timestamps[timestampIndex], new Point(x - timestampHalfWidth, ah / 2 - timestampHalfHeight));
