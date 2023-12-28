@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace NetSDKCS
 {
@@ -35413,6 +35414,18 @@ namespace NetSDKCS
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
         public NET_USER_GROUP_INFO_EX2[] groupListEx;
+
+        public static NET_USER_MANAGE_INFO_NEW New()
+        {
+            return new NET_USER_MANAGE_INFO_NEW()
+            {
+                dwSize = Convert.ToUInt32(Marshal.SizeOf(typeof(NET_USER_MANAGE_INFO_NEW))),
+                rightList = Enumerable.Repeat(NET_OPR_RIGHT_NEW.New(), 1024).ToArray(),
+                groupList = Enumerable.Repeat(NET_USER_GROUP_INFO_NEW.New(), 20).ToArray(),
+                userList = Enumerable.Repeat(NET_USER_INFO_NEW.New(), 200).ToArray(),
+                groupListEx = Enumerable.Repeat(NET_USER_GROUP_INFO_EX2.New(), 20).ToArray()
+            };
+        }
     }
 
     /// <summary>
@@ -35432,6 +35445,14 @@ namespace NetSDKCS
         {
             return name;
         }
+
+        public static NET_OPR_RIGHT_NEW New()
+        {
+            return new NET_OPR_RIGHT_NEW()
+            {
+                dwSize = Convert.ToUInt32(Marshal.SizeOf(typeof(NET_OPR_RIGHT_NEW)))
+            };
+        }
     }
 
     /// <summary>
@@ -35449,6 +35470,14 @@ namespace NetSDKCS
         public uint[] rights;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
         public string memo;
+
+        public static NET_USER_GROUP_INFO_NEW New()
+        {
+            return new NET_USER_GROUP_INFO_NEW()
+            {
+                dwSize = Convert.ToUInt32(Marshal.SizeOf(typeof(NET_USER_GROUP_INFO_NEW)))
+            };
+        }
     }
 
     /// <summary>
@@ -35491,6 +35520,14 @@ namespace NetSDKCS
         {
             return name;
         }
+
+        public static NET_USER_INFO_NEW New()
+        {
+            return new NET_USER_INFO_NEW()
+            {
+                dwSize = Convert.ToUInt32(Marshal.SizeOf(typeof(NET_USER_INFO_NEW)))
+            };
+        }
     }
 
     /// <summary>
@@ -35512,6 +35549,14 @@ namespace NetSDKCS
         public override string ToString()
         {
             return name;
+        }
+
+        public static NET_USER_GROUP_INFO_EX2 New()
+        {
+            return new NET_USER_GROUP_INFO_EX2()
+            {
+                dwSize = Convert.ToUInt32(Marshal.SizeOf(typeof(NET_USER_GROUP_INFO_EX2)))
+            };
         }
     }
 
@@ -82981,7 +83026,7 @@ namespace NetSDKCS
     /// Burner informaiton
     /// 刻录机信息
     /// </summary>
-    public struct NET_DEV_BURNING
+    public struct NET_DEV_BURNING 
     {
         /// <summary>
         /// Burner driver type;0:DHFS,1:DISK,2:CDRW

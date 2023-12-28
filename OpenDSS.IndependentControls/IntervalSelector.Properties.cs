@@ -1,4 +1,5 @@
 ﻿using OpenDSS.Common;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -114,20 +115,23 @@ namespace OpenDSS.IndependentControls
                 typeof(IntervalSelector),
                 new PropertyMetadata(new List<TimeInterval>()));
 
-        public int OffsetHours
+        public TimeSpan SelectedIntervalStart
         {
-            get { return (int)GetValue(OffsetHoursProperty); }
-            set { SetValue(OffsetHoursProperty, value); }
+            get { return (TimeSpan)GetValue(SelectedIntervalStartProperty); }
+            set { SetValue(SelectedIntervalStartProperty, value); }
         }
 
-        public static readonly DependencyProperty OffsetHoursProperty =
-            DependencyProperty.Register("OffsetHours", typeof(int), typeof(IntervalSelector), new PropertyMetadata(6, null, (s, v) =>
-            {
-                int val = (int)v;
+        public static readonly DependencyProperty SelectedIntervalStartProperty =
+            DependencyProperty.Register("SelectedIntervalStart", typeof(TimeSpan), typeof(IntervalSelector), new PropertyMetadata(new TimeSpan(5, 15, 32)));
 
-                return val >= 0 && val <= 24;
-            }));
+        public TimeSpan SelectedIntervalEnd
+        {
+            get { return (TimeSpan)GetValue(SelectedIntervalEndProperty); }
+            set { SetValue(SelectedIntervalEndProperty, value); }
+        }
 
+        public static readonly DependencyProperty SelectedIntervalEndProperty =
+            DependencyProperty.Register("SelectedIntervalEnd", typeof(TimeSpan), typeof(IntervalSelector), new PropertyMetadata(new TimeSpan(15, 14, 12)));
 
     }
 }

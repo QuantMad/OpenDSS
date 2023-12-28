@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OpenDSS.IndependentControlsApp"
-        xmlns:Common="clr-namespace:OpenDSS.Common;assembly=OpenDSS.Common"
+        xmlns:Common="clr-namespace:OpenDSS.Common;assembly=OpenDSS.Common" xmlns:system="clr-namespace:System;assembly=mscorlib"
         x:Class="OpenDSS.IndependentControlsApp.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="500">
@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <!--Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -57,7 +57,7 @@
                     <TextBlock  VerticalAlignment="Bottom" Text="{Binding ScaledEnd, ElementName=userControl1}"/>
                 </StackPanel>
             </StackPanel>
-        </Grid>
+        </Grid-->
 
         <!--local:HorizontalAxis Grid.Row="1"/-->
 

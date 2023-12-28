@@ -31,11 +31,11 @@ namespace OpenDSS.Wrapper
                 Process.GetCurrentProcess().Kill();
             }
 
-            //ReadDevicesLocally();
+            ReadDevicesLocally();
 
             OnPropertyChanged("Device");
-            /*foreach (var device in devices)
-                device.CmdConnect.Execute(null);*/
+            foreach (var device in devices)
+                device.CmdConnect.Execute(null);
         }
 
         private void ReadDevicesLocally()

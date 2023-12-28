@@ -14,7 +14,8 @@ namespace OpenDSS.IndependentControls
         private Brush backgroundBrush = Brushes.Azure.Clone();
         private Brush intervalBrush = Brushes.Blue.Clone();
         private Brush previewBrush = Brushes.Gray.Clone();
-        private Pen mainPen = new Pen(Brushes.Black, 1.0);
+        private Pen mainPen = new Pen(Brushes.DimGray, 1.0);
+        private Pen secondPen = new Pen(Brushes.Black, 3.0);
         private DrawingGroup dynamicStore = new DrawingGroup();
         private DrawingGroup staticStore = new DrawingGroup();
         private readonly Typeface tf = new Typeface("Lucida Console");
@@ -37,7 +38,7 @@ namespace OpenDSS.IndependentControls
                 graduationsCount = graduations[graduations.Length - 1].correspondence.grads;
                 subGraduationsCount = graduations[graduations.Length - 1].correspondence.subgrads;
                 timestampsRatio = 1440 / graduationsCount;
-                Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
+                //Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
                 return;
             }
 
@@ -48,12 +49,10 @@ namespace OpenDSS.IndependentControls
                     graduationsCount = graduations[i].correspondence.grads;
                     subGraduationsCount = graduations[i].correspondence.subgrads;
                     timestampsRatio = 1440 / graduationsCount;
-                    Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
+                    //Console.WriteLine($"{graduationsCount} {subGraduationsCount} {Scale}");
                     return;
                 }
             }
-
-            
         }
 
         #region lovalVarsAndProps
@@ -81,6 +80,7 @@ namespace OpenDSS.IndependentControls
             previewBrush.Opacity = 0.7;
             previewBrush.Freeze();
             mainPen.Freeze();
+            secondPen.Freeze();
 
             CalculateTimestamps();
             calcGraduations();
@@ -157,6 +157,7 @@ namespace OpenDSS.IndependentControls
 
         private void RenderDynamic(DrawingContext dc)
         {
+            #region rects
             double ay = 0, ah = unit;
             double by = ah, bh = unit;
             double cy = by + bh, ch = unit;
@@ -172,8 +173,11 @@ namespace OpenDSS.IndependentControls
             dc.DrawRectangle(backgroundBrush, mainPen, crect);
             dc.DrawRectangle(backgroundBrush, mainPen, drect);
 
+            #endregion rects
+
             double subgraduationWidth = scaledGraduationStep / (subGraduationsCount + 1);
 
+            #region graduations
             for (int i = 0; i <= visibleGraduations; i++)
             {
                 double x = i * scaledGraduationStep + (passedGraduations > 0 ? scaledGraduationStep : 0) - offset;
@@ -229,6 +233,7 @@ namespace OpenDSS.IndependentControls
                 }
                 #endregion availableIntervals
             }
+            #endregion graduations
 
             #region preview
             foreach (var interval in AvailableIntervals)
@@ -242,12 +247,19 @@ namespace OpenDSS.IndependentControls
             }
 
             dc.DrawRectangle(previewBrush, mainPen, new Rect(OnScreenPosition, dy, scalingWidth, dh));
-
+            
             for (int i = 0; i < 24; i++)
             {
                 double x = i * (ActualWidth / 24);
                 dc.DrawLine(mainPen, new Point(x, dy), new Point(x, dy + dh));
             }
+
+            double st = ActualWidth / (SECONDS_IN_DAY / SelectedIntervalStart.TotalSeconds);
+            dc.DrawLine(secondPen, new Point(st, dy), new Point(st, dy + dh));
+            dc.DrawRectangle(previewBrush, mainPen, new Rect(st, dy + dh / 3, 20, dh / 2));
+            
+            double end = ActualWidth / (SECONDS_IN_DAY / SelectedIntervalEnd.TotalSeconds);
+            dc.DrawLine(secondPen, new Point(end, dy), new Point(end, dy + dh));
             #endregion preview
         }
 

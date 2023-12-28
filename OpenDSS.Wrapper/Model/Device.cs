@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace OpenDSS.Wrapper.Model
@@ -13,10 +14,12 @@ namespace OpenDSS.Wrapper.Model
         internal ConnectionInfo connectionInfo;
         internal DeviceInfo deviceInfo;
         private string lastError;
+        private DeviceConfig deviceConfig;
 
         public string LastError => lastError;
         public ConnectionInfo ConnectionInfo => connectionInfo;
         public DeviceInfo DeviceInfo => deviceInfo;
+        public DeviceConfig DevConfig => deviceConfig;
 
         public Device(ConnectionInfo connInf)
         {
@@ -49,9 +52,12 @@ namespace OpenDSS.Wrapper.Model
                                 }
 
                                 deviceInfo = new DeviceInfo(this, deviceInfo_ex);
-
                                 OnPropertyChanged("DeviceInfo");
 
+                                /* DeviceConfig */
+
+                                NET_USER_MANAGE_INFO_NEW uin = new NET_USER_MANAGE_INFO_NEW();
+                                NETClient.QueryUserInfoNew(connectionInfo.LoginID, ref uin, 2000);
                             }
                         }).Start();
                     }));
